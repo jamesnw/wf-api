@@ -17,7 +17,7 @@ function writeFiles(items, directory) {
     }
 
     items.forEach((item, index) => {
-        const filename = `${item.feature_id}`;
+        const filename = `${item.feature_id}.json`;
         const filePath = path.join(directory, filename);
 
         // Write the item to the file
