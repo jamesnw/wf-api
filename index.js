@@ -17,7 +17,7 @@ function writeFiles(items, directory) {
     }
 
     items.forEach((item, index) => {
-        const filename = `${item.id}.json`;
+        const filename = `${item.feature_id}.json`;
         const filePath = path.join(directory, filename);
 
         // Write the item to the file
@@ -31,10 +31,31 @@ function writeFiles(items, directory) {
     });
 }
 
-const items = Object.keys(features).map(feature => ({
-  id: feature,
-  ...features[feature]
-}))
+
+const items = Object.keys(features).map(feature => {
+  const featureData = features[feature];
+
+  return {
+    feature_id: feature,
+    baseline: {status: featureData.status.baseline},
+    name: featureData.name,
+    spec: featureData.spec,
+    browser_implementations: featureData.status.support
+  }
+})
+
+//   "browser_implementations": {
+//       "chrome": {
+//           "date": "2024-09-17",
+//           "status": "available",
+//           "version": "129"
+//       },
+//       "edge": {
+//           "date": "2024-09-19",
+//           "status": "available",
+//           "version": "129"
+//       }
+
 
 const directory = './api/v1';  // You can change this to any directory path
 
