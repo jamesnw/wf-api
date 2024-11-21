@@ -17,7 +17,7 @@ function writeFiles(items, directory) {
     }
 
     items.forEach((item, index) => {
-        const filename = `${item.feature_id}.json`;
+        const filename = `${item.feature_id}`;
         const filePath = path.join(directory, filename);
 
         // Write the item to the file
@@ -35,9 +35,26 @@ function writeFiles(items, directory) {
 const items = Object.keys(features).map(feature => {
   const featureData = features[feature];
 
+  let status;
+  switch (featureData.status.baseline) {
+    case 'high':
+      status = 'widely';
+      break;
+    case 'low':
+      status = 'newly';
+      break;
+    case false:
+      status = 'limited';
+      break;
+  
+    default:
+      status = 'unavailable';
+      break;
+  }
+
   return {
     feature_id: feature,
-    baseline: {status: featureData.status.baseline},
+    baseline: {status},
     name: featureData.name,
     spec: featureData.spec,
     browser_implementations: featureData.status.support
